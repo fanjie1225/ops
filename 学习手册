@@ -8,4 +8,10 @@ swapcase: 将字符串中的大写转换为小写，小写转换为大写
 capitalize: 将首字母转换为大写
 istitle: 判断字符串是不是一个标题
 (2) 判断类方法
-isalpha:
+isalpha:如果字符串只包含字母，并且非空，则返回True，否则返回False
+isalnum:如果字符串值包含字母和数字，并且非空，则返回True，否则返回False
+isspace:如果字符串值包含空格、制表符、换行符、并且非空、则返回True，否则返回False
+isdecimal:如果字符串只包含数字字符，并且非空，则返回True，否则返回False
+(3)
+startswith: 方法的参数是否为字符串的前缀
+endswith: 方法的参数是否为字符串的后缀
