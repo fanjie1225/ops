@@ -25,7 +25,6 @@ else
     ./configure --prefix=/usr/local/python2.7.13
     make && echo "make ok ..."
     make install && echo "make install ok ..."
-    cd -
     if [ $? -ne 0 ];then
         echo "py upgrade failed..." && exit 1
     else
@@ -34,6 +33,7 @@ else
     python --version
     echo "change yum" && sed -i "s@usr/bin/python@usr/bin/python2.6@g" /usr/bin/yum
     fi
+    cd -
 fi
 }
 upgrade_py
@@ -44,12 +44,12 @@ PyCrypto()
     tar xfv $PyCryptoVer.tar.gz -C /usr/src
     cd /usr/src/$PyCryptoVer && echo "tar ok ..."
     python setup.py build && python setup.py install
-    cd -
     if [ $? -eq 0 ];then
     echo "PyCrypto install is ok ..."
     else
     echo "PyCrypto install is failed ..." && exit 2
     fi
+    cd -
 }
 PyCrypto
 ecdsa()
@@ -58,12 +58,12 @@ ecdsa()
     tar xfv $EcdsaVer.tar.gz -C /usr/src
     cd /usr/src/$EcdsaVer && echo "tar ok ..."
     python setup.py build && python setup.py install
-    cd - 
     if [ $? -eq 0 ];then
     echo "Ecdsa install is ok ..."
     else
     echo "Ecdsa install is failed ..." && exit 3
     fi
+    cd -
 }
 ecdsa
 paramiko()
@@ -72,11 +72,11 @@ paramiko()
     tar xfv $ParamikoVer.tar.gz -C /usr/src
     cd /usr/src/$ParamikoVer && echo "tar ok ..."
     python setup.py build && python setup.py install
-    cd -
     if [ $? -eq 0 ];then
     echo "Paramiko install is ok ..."
     else
     echo "Paramiko install is failed ..." && exit 5
     fi
+    cd -
 }
 paramiko
