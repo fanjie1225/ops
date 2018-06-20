@@ -1,0 +1,60 @@
+环境安装MySQL-python-1.2.5
+python-2.7.13
+# yum install python-devel mysql-devel gcc gcc-c++
+# setuptools
+# python setup.py build
+# python setup.py install
+MySQL-python
+# python setup.py build
+# python setup.py install
+
+PyMySQL
+# python setup.py build
+# python setup.py build
+
+SQLAlchemy
+# python setup.py build
+# python setup.py build
+
+python tab命令补全脚本
+需要readline模块
+前提
+# yum install patch ncurses-devel ncurses
+# tar xf readline-6.2.4.1.tar.gz
+# cd readline-6.2.4.1
+# python setup.py build
+# python setup.py install
+
+# python
+>>> import sys
+>>> sys.path
+....
+/usr/local/python2.7.13/lib/python2.7/site-packages
+找到上述工作目录
+进入工作目录编写tab.py脚本
+#!/usr/bin/python     
+# python tab file   
+import sys
+import readline
+import rlcompleter
+import atexit
+import os
+# tab completion   
+readline.parse_and_bind('tab: complete')
+# history file   
+histfile = os.path.join(os.environ['HOME'], '.pythonhistory')
+try:
+    readline.read_history_file(histfile)
+except IOError:
+    pass
+atexit.register(readline.write_history_file, histfile)
+
+del os, histfile, readline, rlcompleter
+
+添加环境变量
+# cd
+~ # vim .bashrc
+export PYTHONSTARTUP=/usr/local/python2.7.13/lib/python2.7/site-packages/tab.py
+# source .bashrc
+
+
