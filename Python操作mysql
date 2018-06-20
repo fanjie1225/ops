@@ -1,0 +1,8 @@
+Python中操作数据库的步骤
+1) 导入相应的Python模块(MySQLdb or PyMySQL)
+2) 使用connect函数连接数据库，并返回一个Connection的对象
+3) 通过Connection对象的cursor方法，并返回一个Cursor对象
+4) 通过Cursor对象的execute方法执行SQL语句
+5) 如果执行的是查询语句，通过Curso对象的fetchall语句获取返回结果
+6) 调用Cursor对象的close方法关闭Cursor
+7) 调用Connection对象的close方法关闭数据库连接
