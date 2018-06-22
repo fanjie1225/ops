@@ -1,0 +1,116 @@
+Docker
+Docker 是一个基于LXC技术之上构建的Container容器引擎
+Docker 是通过内核虚拟化技术来提供容器的资源隔离与安全保障等
+Docker 组成: Server 和 Client
+Docker 组件: 镜像 image、 容器 Container、仓库 Repository
+Docker 能做什么:
+    1. 代码流水线管理
+    2. 开发效率
+    3. 调试能力
+    4. 多租户
+    5. 快速部署
+    6. 配置简单
+使用的原因: 无技术栈和技术债 -- 技术储备 -- 跟上节奏、提升自身技术 -- 符合当前业务需求 -- 快
+劣势: server挂，影响所有client
+Docker的部署：
+参考官方文档:https://docs.docker.com/install/linux/docker-ce/centos/#os-requirements
+环境：Centos7
+SET UP THE REPOSITORY
+$ sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+$ sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+$ sudo yum-config-manager --enable docker-ce-edge
+$ sudo yum-config-manager --enable docker-ce-test
+INSTALL DOCKER CE
+$ sudo yum install docker-ce
+Start Docker
+$ sudo systemctl start docker
+基本命令:
+下载镜像
+# docker pull centos
+查看镜像
+# docker images
+# docker save 镜像名 > /opt/centos.tar.gz
+# docker load < /opt/centos.tar.gz
+删除镜像
+# docker rmi IMAGE ID
+启动容器:
+1. 已经存在，启动容器
+    # docker start 容器ID
+2. 不存在，创建后启动
+    # docker run centos /bin/echo "hello world"
+
+    # docker run --name mydocker -t -i centos /bin/bash
+    --name: 起一个名字
+    -t: 启动一个伪终端
+    -i:
+    # docker run --rm centos /bin/echo "Hello" 容器停止后自动删除
+查看容器状态
+查看正在允许的容器
+# docker ps
+查看所有的容器
+# docker ps -a
+进入容器
+# docker attach 容器ID
+获取容器Pid
+# docker inspect --format "{{.State.Pid}}" 容器ID
+
+# nsenter -t pid -u -i -n -p
+进入容器脚本
+#!/bin/bash
+PID=$(docker inspect --format "{{.State.Pid}}" $1)
+nsenter -t $PID -u -i -n -p
+## $1 为容器ID
+
+docker的网络访问:
+
+# btctl show
+# docker run -d -P nginx
+# docker logs
+指定端口映射:
+随机映射:
+# docker run -P
+指定映射:
+# docker run -d -p 81:80 nginx
+# docker run -d -p ip:hostport:containerport
+# docker run -d -p ip::containerport
+# docker run -d -p hostport:containerport:udp
+存储
+数据卷:
+    -v /data
+    -v src:dst
+    # docker run -it -v /opt:/opt centos
+数据卷容器:
+    --volumes-from
+    # docker run -d --name nfs -v /data/ centos
+
+    # docker run -d --name new --volumes-from nfs centos
+
+
+# docker inspect -f {{.Volumes}}
+制作镜像:
+# docker commit -m "my nginx" 容器id ops/mynginx
+
+容器部署nginx
+启动并进入容器
+# docker run --name mynginx -it centos
+容器内安装nginx
+yum install -y nginx
+提交安装好nginx的镜像
+# docker commit -m "my nginx" 容器id 组织名/mynginx:v1
+启动并进入容器
+# docker run -it --name nginxv1 组织名/mynginx:v1
+在容器里修改nginx配置文件为前台启动
+daemon off;
+在此提交
+# docker commit -m "my nginx" 新容器id 组织名/mynginx:v2
+启动容器 并执行nginx命令，启动nginx
+# docker run -d -p 82:80 组织名/mynginx:v2 nginx
+
+
+
+
+
